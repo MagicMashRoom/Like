@@ -43,7 +43,7 @@ public class LikeContent extends RelativeLayout {
 
     private void init(Context context, AttributeSet attributeSet, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.LikeContent, defStyleAttr, 0);
-        resId = typedArray.getInt(R.styleable.LikeContent_vectorSrc, EMPTY_RES_ID);
+        resId = typedArray.getResourceId(R.styleable.LikeContent_vectorSrc, EMPTY_RES_ID);
         if(resId == 0){
             resId = R.drawable.ic_favorite_black_24dp;
         }
