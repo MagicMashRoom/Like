@@ -72,9 +72,8 @@ public class LikeContent extends RelativeLayout {
             final LikeDrawable likeDrawable = new LikeDrawable(context, resId);
             likeIv.setImageDrawable(likeDrawable);
             addView(likeIv);
-            ObjectAnimator translationYAnim = ObjectAnimator.ofFloat(likeIv, "translationY", likeIv.getY(), likeIv.getY() - 464f);
-            ObjectAnimator scaleAnim = ObjectAnimator.ofFloat(likeIv, "ldf", 1.0F,  1.6F);
-            scaleAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
+            ObjectAnimator animator = ObjectAnimator.ofFloat(likeIv, "ldf", 1.0F,  1.6F);
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener()
             {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation)
@@ -83,9 +82,10 @@ public class LikeContent extends RelativeLayout {
                     likeIv.setAlpha(1.6f - cVal);
                     likeIv.setScaleX(cVal);
                     likeIv.setScaleY(cVal);
+                    likeIv.setTranslationY(-256f * cVal);
                 }
             });
-            scaleAnim.addListener(new Animator.AnimatorListener() {
+            animator.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
                 }
@@ -104,7 +104,7 @@ public class LikeContent extends RelativeLayout {
                 }
             });
             AnimatorSet animSet = new AnimatorSet();
-            animSet.play(translationYAnim).with(scaleAnim);
+            animSet.play(animator);
             animSet.setDuration(1200);
             animSet.start();
         }
@@ -112,5 +112,14 @@ public class LikeContent extends RelativeLayout {
         positionY = event.getY();
 
         return super.onTouchEvent(event);
+    }
+
+    public interface AnimatorUpdateListener {
+        float updateScaleX();
+        float updateScaleY();
+        float updateTransactionY();
+        float updateTransactionX();
+        float updateAlpha();
+        float remove();
     }
 }
